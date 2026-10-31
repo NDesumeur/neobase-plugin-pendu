@@ -2,11 +2,33 @@
 // Ses données sont dans le dossier du plugin, que NeoBase sauvegarde (synchro cloud et sauvegardes) ; à la première ouverture elle reprend ce que tu avais dans NeoBase.
 // Elle demande l'accès complet pour utiliser les outils d'interface de NeoBase. NeoBase ne l'ouvre que si elle est signée.
 const HTML = "<div class=\"appWrap\">\n      <div class=\"agHead\"><span class=\"label\">Pendu</span><span class=\"hint\" id=\"hgInfo\"></span><div class=\"agNav\"><select class=\"f gSel\" id=\"hgTheme\"></select><select class=\"f gSel\" id=\"hgLevel\"><option value=\"facile\">Facile · 10 erreurs</option><option value=\"normal\" selected>Normal · 8 erreurs</option><option value=\"difficile\">Difficile · 6 erreurs</option><option value=\"expert\">Expert · 4 erreurs</option></select><button class=\"btn px\" id=\"hgHint\">INDICE (1 ERREUR)</button><button class=\"btn px\" id=\"hgNew\">NOUVEAU MOT</button></div></div>\n      <div class=\"sysCard px hgMain\"><canvas id=\"hgCanvas\" width=\"64\" height=\"64\"></canvas><div class=\"hgSide\"><div id=\"hgWord\"></div><span class=\"hint\" id=\"hgThemeName\"></span><span class=\"label\" id=\"hgLives\"></span><div id=\"hgMsg\" class=\"hgMsg\"></div></div></div>\n      <div id=\"hgKeys\"></div>\n      <div class=\"hint\">Clique les lettres ou tape-les au clavier (Entrée : mot suivant). Les accents ne comptent pas : E trouve aussi É, È et Ê.</div>\n    </div>";
+/*CSS-MOVED*/ const CSS = `.gSel{width:auto;font-size:14px;padding:6px 10px;margin-right:8px}
+.hgMain{flex-direction:row;align-items:center;gap:34px;padding:24px 28px}
+#hgCanvas{width:256px;height:256px;image-rendering:pixelated;flex:none}
+.hgSide{display:flex;flex-direction:column;gap:14px;min-width:0}
+#hgWord{display:flex;flex-wrap:wrap;gap:8px}
+#hgWord span{width:34px;height:46px;display:grid;place-items:center;font:20px var(--title);color:#fff;box-shadow:inset 0 -4px 0 var(--line2)}
+#hgWord span.on{box-shadow:inset 0 -4px 0 var(--pink)}
+#hgWord span.miss{color:var(--red)}
+#hgWord span.sep{box-shadow:none;width:16px}
+.hgMsg{font:12px var(--title);min-height:16px;color:var(--lilac);line-height:1.5}
+.hgMsg.won{color:#8ee8a0}
+.hgMsg.lost{color:var(--red)}
+#hgKeys{display:flex;flex-direction:column;align-items:center;gap:10px}
+.hgRow{display:flex;gap:10px}
+.hgKey{--fill:var(--btn);border:0;padding:0;width:54px;height:54px;font:16px var(--title);color:#fff;cursor:var(--cp,pointer)}
+.hgKey:hover:not(:disabled){--fill:var(--btnh);--c:var(--violet)}
+.hgKey.good{--fill:#1d4a34;--c:#2fbf71;color:#8ee8a0}
+.hgKey.bad{--fill:#2a0b1a;--c:#5a1f36;color:var(--red)}
+.hgKey:disabled{cursor:default}
+.nbaTeam.lost .tn{color:var(--muted)}
+`;  // le style de ce plugin (il utilise les variables du thème de NeoBase)
 export default async function (ctx) {
   const view = ctx.view;
   if (!ctx.host) { view.textContent = "Ce plugin doit être approuvé par NeoBase pour s'ouvrir."; return; }
   const host = ctx.host, { el, toast, sfx, ask, newTab, pixIcon, PIX, WX } = host;
   const folder = ctx.folder, legacy = ctx.legacy || {};
+  ctx.host.addStyle(CSS);
   view.innerHTML = HTML;
   const $ = id => id === "hangApp" ? view : (view.querySelector('#' + id) || document.getElementById(id));  // les identifiants de ta vue d'abord, puis ceux de la page (fenêtres, menus)
   const doc = async n => { try { return await folder.read(n); } catch { return null; } };

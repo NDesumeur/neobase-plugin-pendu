@@ -1,7 +1,7 @@
 {
   "id": "neobase.pendu",
   "name": "Pendu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "NDesumeur",
   "description": "Des mots français par thème, accents ignorés, une potence dessinée pixel par pixel.",
   "icon": "icon.png",
