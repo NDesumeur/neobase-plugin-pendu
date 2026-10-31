@@ -1,0 +1,9 @@
+{
+  "pluginId": "neobase.pendu",
+  "repo": "NDesumeur/neobase-plugin-pendu",
+  "version": "1.0.0",
+  "sha256": "8b0fb4c908fb2c72febb5560b88c5cdb0f4899a2b102038dde2517a81ca200d4",
+  "approvedAt": "2026-10-31T16:22:01.604Z",
+  "neobase": ">=4.0.0",
+  "signature": "A5mFE9rkBZXB1rJpw7NyRXcpvIf2TgvXKtKUr/JR8w1VhpGQhWndvNhwOSC2bBlBSyjV3TVgQ1qDoinFXGGvCw=="
+}
